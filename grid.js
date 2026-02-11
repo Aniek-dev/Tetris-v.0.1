@@ -1,4 +1,4 @@
- import {Tetromino} from '/scripts/tetromino.js'
+ import {Tetromino} from './tetromino.js'
  
  export class Grid {
 constructor(canvas,rows,cols,cellSize,space){
@@ -79,4 +79,5 @@ printMatriz(){
     });
 }
 }
+
 
