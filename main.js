@@ -1,5 +1,5 @@
-import {Game} from '/scripts/game.js'
-import {initMusic} from '/scripts/casette.js'
+import {Game} from './game.js'
+import {initMusic} from './casette.js'
     
 
 const canvasTetris = document.getElementById("canvas-Tetris");
@@ -20,4 +20,5 @@ function update(){
 }
 
 update();
+
 
