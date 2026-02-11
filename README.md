@@ -37,7 +37,7 @@
 # Visitar el Sitio
 ¡Disfruta jugando Tetris clásico haciendo clic en el siguiente enlace: 
 
-[Abrir Tetris-v.0.1 ](https://aniek-dev.github.io/Calculadora-Sencilla/)
+[Abrir Tetris-v.0.1 ](  https://aniek-dev.github.io/Tetris-v.0.1/)
 
 
 ## 🎵 Animación y música
