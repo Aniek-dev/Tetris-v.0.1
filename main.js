@@ -1,0 +1,23 @@
+import {Game} from '/scripts/game.js'
+import {initMusic} from '/scripts/casette.js'
+    
+
+const canvasTetris = document.getElementById("canvas-Tetris");
+const canvasNext =  document.getElementById("canvas-next");
+const canvasHold =  document.getElementById("canvas-hold");
+const rows = 20;
+const cols = 10;
+const cellSize = 26;
+const space = 2;
+
+const game = new Game(canvasTetris,rows,cols,cellSize,space,canvasNext,canvasHold);
+initMusic();
+
+function update(){
+
+   game.update();
+     requestAnimationFrame(update);
+}
+
+update();
+

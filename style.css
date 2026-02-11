@@ -1,0 +1,288 @@
+@import url('https://fonts.googleapis.com/css2?family=Bitcount+Prop+Single:wght@100..900&display=swap');
+
+* {
+  font-family: "Bitcount Prop Single", system-ui;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root{
+  /* Tamaños reutilizables: ajustar aquí para cambiar tamaño de HOLD / cassette / NEXT */
+  --small-w: 128px;
+  --small-h: 160px;
+  --main-w: 320px;
+  --main-h: 640px;
+
+  /* Animación: ajustar velocidades */
+  --spool-speed-left: 2s;
+  --spool-speed-right: 1.6s;
+  --tape-duration: 0.9s;
+
+  --accent-green: #53eb07;
+  --panel-bg: rgb(93, 93, 172);
+}
+
+body {
+  background: radial-gradient(circle, #410060, #380a60, #2f105f, #26155d, #1c185b);
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-optical-sizing: auto;
+  padding: 24px;
+}
+
+/* Contenedor principal para separar columnas */
+.game {
+  display: flex;
+  flex-direction: row;
+  gap: 2.5rem;
+  align-items: flex-start;
+}
+
+/* Contenedor de cada sección: HOLD, TETRIS, NEXT */
+.canvas-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  background-color: var(--panel-bg);
+  padding: 12px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  margin: 0 0.5rem;
+  min-width: calc(var(--small-w) + 40px);
+}
+
+/* Título de cada sección */
+.canvas-container span {
+  color: var(--accent-green);
+  font-size: 20px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+/* Canvas visual (wrapper) */
+.canvas {
+  background-image: linear-gradient(
+    to bottom,
+    #46ff83,
+    #ff46ec,
+    #465bff,
+    #c0c0d4ff
+  );
+  padding: 10px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Estilos para los elementos <canvas> */
+.canvas canvas {
+  display: block;
+  background: #000; /* fondo del canvas real */
+  border-radius: 6px;
+  box-shadow: inset 0 0 0 2px rgba(255,255,255,0.03);
+}
+
+/* Tamaños: HOLD / NEXT / CASSETTE usan tamaño pequeño */
+#canvas-hold,
+#canvas-next {
+  width: var(--small-w);
+  
+}
+
+/* Tamaño del canvas principal (Tetris) */
+#canvas-Tetris {
+  width: var(--main-w);
+  height: var(--main-h);
+}
+
+/* Score */
+.score-container {
+  font-size: 16px;
+  background-color: #000000;
+  padding: 6px 12px;
+  border-radius: 6px;
+  color: var(--accent-green);
+}
+
+/* ---------- Cassette styles (para que se parezca y respete tamaño de HOLD) ---------- */
+.cassette {
+  margin-top: 6px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.cassette .shell {
+  width: var(--small-w);
+  height: 12vh;
+  background: linear-gradient(180deg, #222, #0d0d0d);
+  border-radius: 8px;
+  border: 3px solid rgba(0,0,0,0.6);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.6), inset 0 2px 6px rgba(255,255,255,0.02);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  overflow: hidden;
+}
+
+/* Spools (ruedas de la cassette) */
+.cassette .spool {
+  width: calc(var(--small-w) * 0.26);
+  height: calc(var(--small-w) * 0.26);
+  background: radial-gradient(circle at 30% 30%, #ddd, #999 30%, #444 70%);
+  border-radius: 50%;
+  box-shadow: inset 0 -2px 6px rgba(0,0,0,0.6);
+  position: absolute;
+  top: 36%;
+  transform-origin: 50% 50%;
+  /* inicialmente pausadas; se activan con .playing */
+  animation-play-state: paused;
+}
+
+/* izquierda / derecha */
+.cassette .spool.left {
+  left: 16%;
+  animation: spinCCW var(--spool-speed-left) linear infinite;
+}
+
+.cassette .spool.right {
+  right: 16%;
+  animation: spinCW var(--spool-speed-right) linear infinite;
+}
+
+/* Agujero central de la spool */
+.cassette .spool::after{
+  content: "";
+  position: absolute;
+  width: 32%;
+  height: 32%;
+  left: 34%;
+  top: 34%;
+  background: #111;
+  border-radius: 50%;
+  box-shadow: inset 0 1px 3px rgba(255,255,255,0.02);
+}
+
+/* Etiqueta central de la cassette */
+.cassette .label {
+  position: absolute;
+  bottom: 10%;
+  
+  text-align: center;
+  color: var(--accent-green);
+  font-weight: 700;
+  letter-spacing: 1px;
+  font-size: 12px;
+  text-transform: uppercase;
+  background: rgba(0,0,0,0.25);
+  margin: 0 12px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  z-index: 4;
+}
+
+/* Tape (la franja entre spools) */
+.cassette .tape {
+  position: absolute;
+  left: 50%;
+  top: 48%;
+  transform: translateX(-50%);
+  width: calc(var(--small-w) * 0.56);
+  height: 12px;
+  background: repeating-linear-gradient(
+    90deg,
+    #1a1a1a 0 6px,
+    #0d0d0d 6px 12px
+  );
+  border-radius: 3px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.02);
+  z-index: 2;
+  /* animación pausada por defecto, controlada con .playing */
+  animation: tapeMove var(--tape-duration) linear infinite;
+  animation-play-state: paused;
+}
+
+/* Keyframes */
+@keyframes spinCW {
+  to { transform: rotate(360deg); }
+}
+@keyframes spinCCW {
+  to { transform: rotate(-360deg); }
+}
+@keyframes tapeMove {
+  from { background-position: 0 0; }
+  to { background-position: -40px 0; }
+}
+
+/* Cuando la cassette tiene la clase playing, arrancan las animaciones */
+.cassette.playing .spool,
+.cassette.playing .tape {
+  animation-play-state: running;
+}
+
+/* Si quieres pausar desde JS: remove/add la clase "playing" en el elemento .cassette */
+
+/* Responsive: si la pantalla es pequeña, escala los tamaños */
+@media (max-width: 600px) {
+  :root {
+    --small-w: 96px;
+    --small-h: 120px;
+    --main-w: 230px;
+    --main-h: 460px;
+  }
+  .game { gap: 1rem; }
+}
+
+/* Music controls */
+.music-controls {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.music-controls button {
+  background-color: #000;
+  color: var(--accent-green);
+  border: 2px solid var(--accent-green);
+  padding: 5px 10px;
+  font-family: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 4px;
+  text-transform: uppercase;
+  font-weight: bold;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.music-controls button:hover {
+  background-color: var(--accent-green);
+  color: #000;
+}
+
+.music-controls button:active {
+  transform: translateY(2px);
+}
+
+
+
+footer {
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
+  text-align: center;
+}
+
+.copyright {
+  font-size: 16px;
+  color: var(--accent-green); 
+}

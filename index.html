@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tetris</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+    <div class="game">
+        <div class="canvas-container">
+            <span>HOLD</span>
+            <div class="canvas">
+               <canvas id="canvas-hold"></canvas> 
+            </div>
+
+            <!-- Cassette: elemento visual que sigue tamaño/estilo del HOLD -->
+            <!-- Añadida la clase "playing" para que la animación esté activa por defecto -->
+            <div class="cassette playing" aria-hidden="true">
+                <div class="shell">
+                    <div class="spool left"></div>
+                    <div class="spool right"></div>
+                    <div class="tape" aria-hidden="true"></div>
+                    <div class="label">Коробе́йники</div>
+                </div>
+            </div>
+            
+            <div class="music-controls">
+                <button id="resume-pause-music-btn">  ▶︎ || </button>
+                
+            </div>
+            
+        </div>
+        <div class="canvas-container">
+            <span class="score-container">SCORE: <span id="score">0</span></span>
+            <div class="canvas">
+                <canvas id="canvas-Tetris"></canvas>
+            </div>
+           
+        </div>
+        <div class="canvas-container">
+            <span>NEXT</span>
+            <div class="canvas">
+                 <canvas id="canvas-next"></canvas>
+            </div>
+            
+        </div>
+    </div>
+
+
+
+
+    <script type="module" src="/scripts/main.js"></script>
+
+   
+
+
+
+<footer>
+
+
+<p class="copyright"> &copy; Aniek-Dev |  2026 All rights reserved.</p>
+</footer>
+
+
+</body>
+
+</html>
