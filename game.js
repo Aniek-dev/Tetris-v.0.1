@@ -1,5 +1,5 @@
-import { BoardHold, BoardTetris, BoardNext } from "/scripts/boardTetris.js";
-import { TetrominosBag } from "/scripts/tetromino.js";
+import { BoardHold, BoardTetris, BoardNext } from "/boardTetris.js";
+import { TetrominosBag } from "/tetromino.js";
 
 
  export class Game{
@@ -210,3 +210,4 @@ import { TetrominosBag } from "/scripts/tetromino.js";
 
     }    
  }
+
