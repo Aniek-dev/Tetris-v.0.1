@@ -73,4 +73,14 @@ Este proyecto está bajo la licencia [MIT License](LICENSE).
 
 ---
 
-¡Disfruta jugando Tetris clásico con un toque retro ❤️!
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/14214e2d-0261-40d6-9085-c914c012fae9" width="50" height="45" alt="Corazón izquierdo">
+  &nbsp;&nbsp;
+  <span style="vertical-align: middle;">¡Disfruta jugando Tetris clásico con un toque retro !</span>
+  &nbsp;&nbsp;
+  <img src="https://github.com/user-attachments/assets/14214e2d-0261-40d6-9085-c914c012fae9" width="50" height="45" alt="Corazón derecho">
+</p>
+
+
+
